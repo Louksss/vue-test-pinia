@@ -20,6 +20,10 @@
       <div v-if="searched_id > 0">
         {{searched_landlord.id}}. {{searched_landlord.first_name}} {{searched_landlord.last_name}}
       </div>
+      <div v-if="searched_id" class="tenant-list">
+        <span class="bold">Tenants :</span> <span v-for="(tenant, index) in tenants" :key="index">{{tenant.first_name}} {{tenant.last_name}}, </span>
+      </div>
+      <div><span v-if="boys_nb">{{boys_nb}} ♂</span> <span v-if="girls_nb">{{girls_nb}} ♀</span></div>
     </div>
   </div>
 </template>
@@ -27,6 +31,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { LandLord, useLandlordStore } from '../stores/landlord-store';
+import { GENDER, Tenant, useTenantStore } from '../stores/tenant-store';
 
 export default defineComponent({
   props: {
@@ -37,12 +42,13 @@ export default defineComponent({
   },
   setup() {
     const store = useLandlordStore();
+    const tenantStore = useTenantStore();
     const first_name = ref<string>('');
     const last_name = ref<string>('');
     const searched_id = ref<number>(0);
     const id = ref<number>(null);
 
-    return { store, first_name, last_name, searched_id, id }
+    return { store, tenantStore, first_name, last_name, searched_id, id }
   },
   computed: {
     landlords(): LandLord[] {
@@ -50,6 +56,19 @@ export default defineComponent({
     },
     searched_landlord(): LandLord {
       return this.store.getById(this.searched_id);
+    },
+    tenants(): string[] {
+      return this.tenantStore.getByLandlord(this.searched_id);
+    },
+    boys_nb(): number {
+      return this.tenants.filter((tenant: Tenant) => {
+        return tenant.gender === GENDER.MALE;
+      }).length
+    },
+    girls_nb(): number {
+      return this.tenants.filter((tenant: Tenant) => {
+        return tenant.gender === GENDER.FEMALE;
+      }).length
     }
   },
   mounted() {
@@ -58,7 +77,14 @@ export default defineComponent({
       {id: 2, first_name: 'Ines', last_name: 'Manach'},
       {id: 3, first_name: 'Hortense', last_name: 'Vermes'},
     ];
+
+    const tenantList: Tenant[] = [
+      {id: 1, first_name: 'Enora', last_name: 'Gautier', landlord: 1, gender: GENDER.FEMALE},
+      {id: 2, first_name: 'Victoria', last_name: 'Stassi', landlord: 1, gender: GENDER.FEMALE},
+      {id: 3, first_name: 'Paul', last_name: 'Cottineau', landlord: 1, gender: GENDER.MALE},
+    ];
     this.store.retrieveLandlords(landlordList);
+    this.tenantStore.retrieveTenants(tenantList);
   },
   methods: {
     addLandlord() {
@@ -110,5 +136,13 @@ h3 {
 
 .form button {
   margin-top: 8px;
+}
+
+.tenant-list {
+  margin-top: 8px;
+}
+
+.bold {
+  font-weight: 600;
 }
 </style>
