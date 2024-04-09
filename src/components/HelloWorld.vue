@@ -1,6 +1,6 @@
 <template>
   <div class="greetings">
-    <h1 class="green">{{ msg }}</h1>
+    <TestComponent :msg="msg"></TestComponent>
     <div v-for="landlord in landlords" :key="landlord.id">
       {{landlord.id}}. {{landlord.first_name}} {{landlord.last_name}}
     </div>
