@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
 
 export const GENDER = {
-    MALE: 'male',
-    FEMALE: 'female'
+    MALE: 'Male',
+    FEMALE: 'Female',
+    UNDEFINED: 'Prefer not to say'
   } as const
   
 export type Gender = typeof GENDER;

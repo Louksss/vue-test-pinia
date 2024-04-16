@@ -9,21 +9,21 @@
       <input type="text" v-model="first_name" />
       <label>Last name:</label>
       <input type="text" v-model="last_name"/>
-      <button @click="addLandlord">Add</button>
+      <button @click="addLandlord" :disabled="disableAdd">Add</button>
     </div>
 
     <div class="search">
-      <label>First name:</label>
+      <label>Landlord Id:</label>
       <input type="number" v-model="id" min="0" :max="landlords.length"/>
       <button @click="searchLandlord">Search</button>
 
       <div v-if="searched_id > 0">
-        {{searched_landlord.id}}. {{searched_landlord.first_name}} {{searched_landlord.last_name}}
+        <span class="bold">Landlord :</span> <span> {{searched_landlord.id}}. {{searched_landlord.first_name}} {{searched_landlord.last_name}}</span>
       </div>
-      <div v-if="searched_id" class="tenant-list">
+      <div v-if="searched_id && tenants.length" class="tenant-list">
         <span class="bold">Tenants :</span> <span v-for="(tenant, index) in tenants" :key="index">{{tenant.first_name}} {{tenant.last_name}}, </span>
       </div>
-      <div><span v-if="boys_nb">{{boys_nb}} ♂</span> <span v-if="girls_nb">{{girls_nb}} ♀</span></div>
+      <div><span v-if="boys_nb">{{boys_nb}} ♂</span> <span v-if="girls_nb">{{girls_nb}} ♀</span> <span v-if="unknown_genders_nb">{{unknown_genders_nb}} ?</span></div>
     </div>
   </div>
 </template>
@@ -54,6 +54,9 @@ export default defineComponent({
     landlords(): LandLord[] {
       return this.store.getLandlords;
     },
+    disableAdd(): boolean {
+      return !this.first_name.length || !this.last_name.length;
+    },
     searched_landlord(): LandLord {
       return this.store.getById(this.searched_id);
     },
@@ -68,6 +71,11 @@ export default defineComponent({
     girls_nb(): number {
       return this.tenants.filter((tenant: Tenant) => {
         return tenant.gender === GENDER.FEMALE;
+      }).length
+    },
+    unknown_genders_nb(): number {
+      return this.tenants.filter((tenant: Tenant) => {
+        return tenant.gender === GENDER.UNDEFINED;
       }).length
     }
   },
@@ -95,6 +103,11 @@ export default defineComponent({
       };
 
       this.store.addLandlord(newLandlord);
+      this.clear();
+    },
+    clear() {
+      this.first_name = '';
+      this.last_name = '';
     },
     searchLandlord() {
       this.searched_id = this.id;
@@ -136,6 +149,16 @@ h3 {
 
 .form button {
   margin-top: 8px;
+}
+
+.search {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.search button {
+  margin: 8px 0;
 }
 
 .tenant-list {
