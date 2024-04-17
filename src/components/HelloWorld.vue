@@ -23,7 +23,11 @@
       <div v-if="searched_id && tenants.length" class="tenant-list">
         <span class="bold">Tenants :</span> <span v-for="(tenant, index) in tenants" :key="index">{{tenant.first_name}} {{tenant.last_name}}, </span>
       </div>
-      <div><span v-if="boys_nb">{{boys_nb}} ♂</span> <span v-if="girls_nb">{{girls_nb}} ♀</span> <span v-if="unknown_genders_nb">{{unknown_genders_nb}} ?</span></div>
+      <div>
+        <span v-if="boys_nb">{{boys_nb}} ♂</span> 
+        <span v-if="girls_nb">{{girls_nb}} ♀</span> 
+        <span v-if="unknown_genders_nb">{{unknown_genders_nb}} ?</span>
+      </div>
     </div>
   </div>
 </template>
@@ -81,9 +85,9 @@ export default defineComponent({
   },
   mounted() {
     const landlordList: LandLord[] = [
-      {id: 1, first_name: 'Lucas', last_name: 'Fillancq'},
-      {id: 2, first_name: 'Ines', last_name: 'Manach'},
-      {id: 3, first_name: 'Hortense', last_name: 'Vermes'},
+      {id: 1, first_name: 'Lucas', last_name: 'Fillancq', house: 'src/assets/house1.jpg'},
+      {id: 2, first_name: 'Ines', last_name: 'Manach', house: 'src/assets/house2.jpg'},
+      {id: 3, first_name: 'Hortense', last_name: 'Vermes', house: 'src/assets/house3.jpg'},
     ];
 
     const tenantList: Tenant[] = [
