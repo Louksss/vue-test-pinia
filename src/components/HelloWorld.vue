@@ -1,7 +1,7 @@
 <template>
   <div class="greetings">
     <TestComponent :msg="msg"></TestComponent>
-    <div v-for="landlord in landlords" :key="landlord.id">
+    <div v-for="landlord in landlords" :key="landlord.id" :id="`landlord${landlord.id}`">
       {{landlord.id}}. {{landlord.first_name}} {{landlord.last_name}}
     </div>
     <div class="form">
@@ -15,7 +15,7 @@
     <div class="search">
       <label>Landlord Id:</label>
       <input type="number" v-model="id" min="0" :max="landlords.length"/>
-      <button @click="searchLandlord">Search</button>
+      <button @click="searchLandlord" type="button">Search</button>
 
       <div v-if="searched_id > 0">
         <span class="bold">Landlord :</span> <span> {{searched_landlord.id}}. {{searched_landlord.first_name}} {{searched_landlord.last_name}}</span>
