@@ -15,6 +15,7 @@ export interface LandLord {
   created_at?: string;
   updated_at?: string;
   full_name?: string;
+  house?: string;
 }
 
 export const useLandlordStore = defineStore('landlord', {
