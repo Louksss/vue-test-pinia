@@ -1,15 +1,17 @@
 <template>
   <div class="greetings">
     <TestComponent :msg="msg"></TestComponent>
-    <div v-for="landlord in landlords" :key="landlord.id" :id="`landlord${landlord.id}`">
-      {{landlord.id}}. {{landlord.first_name}} {{landlord.last_name}}
+    <div id="landlord_list">
+      <div v-for="landlord in landlords" :key="landlord.id" :id="`landlord${landlord.id}`">
+        {{landlord.id}}. {{landlord.first_name}} {{landlord.last_name}}
+      </div>
     </div>
     <div class="form">
       <label>First name:</label>
-      <input type="text" v-model="first_name" />
+      <input type="text" name="first_name" v-model="first_name" />
       <label>Last name:</label>
-      <input type="text" v-model="last_name"/>
-      <button @click="addLandlord" :disabled="disableAdd">Add</button>
+      <input type="text" name="last_name" v-model="last_name"/>
+      <button id="add_landlord" @click="addLandlord" :disabled="disableAdd">Add</button>
     </div>
 
     <div class="search">

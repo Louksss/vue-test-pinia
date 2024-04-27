@@ -1,13 +1,13 @@
 <template>
   <div class="tenants">
     <h1>Tenants by landlord :</h1>
-    <div class="form">
+    <div class="tenant_form">
       <label>First name:</label>
-      <input type="text" v-model="first_name" />
+      <input type="text" name="first_name" v-model="first_name" />
       <label>Last name:</label>
-      <input type="text" v-model="last_name"/>
+      <input type="text" name="last_name" v-model="last_name"/>
       <label>Gender:</label>
-      <select v-model="gender">
+      <select v-model="gender" name="gender">
         <option disabled value="">Please select one</option>
         <option>{{GENDER.FEMALE}}</option>
         <option>{{GENDER.MALE}}</option>
@@ -15,8 +15,8 @@
       </select>
 
       <label>Landlord Id:</label>
-      <input type="number" v-model="landlordId" min="1" :max="landlords.length"/>
-      <button :disabled="disableAdd" @click="addTenant">Add</button>
+      <input type="number" name="landlord_id" v-model="landlordId" min="1" :max="landlords.length"/>
+      <button :disabled="disableAdd" @click="addTenant" id="add_tenant">Add</button>
     </div>
     <div v-for="landlord in landlords" :key="landlord.id">
       <h3>{{landlord.first_name}} {{landlord.last_name}}'s tenant(s) : </h3>
@@ -85,13 +85,13 @@ h3 {
   margin-top: 24px;
 }
 
-.form {
+.tenant_form {
   display: flex;
   flex-direction: column;
   margin-top: 16px;
 }
 
-.form button {
+.tenant_form button {
   margin-top: 8px;
 }
 

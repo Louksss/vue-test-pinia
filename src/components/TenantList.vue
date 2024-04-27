@@ -1,5 +1,5 @@
 <template>
-  <div v-if="tenants.length">
+  <div v-if="tenants.length" :id="`tenants_of_landlord${landlordId}`">
     <div v-for="tenant in tenants" :key="tenant.id">{{tenant.first_name}} {{tenant.last_name}}</div>
   </div>
   <div v-else>No tenants</div>
